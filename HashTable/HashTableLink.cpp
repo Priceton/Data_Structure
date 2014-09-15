@@ -1,4 +1,4 @@
-
+// Most of the codes come from my friend SunWay.
 
 #include<iostream>
 using namespace std;
