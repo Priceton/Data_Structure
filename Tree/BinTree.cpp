@@ -195,6 +195,24 @@ bool IsInside(BinTree *root, BinTree *t)
 	}
 }
 
+// Judge a Tree to be a Balanced tree.
+int isBalancedHelper(TreeNode *root, bool &is_balanced){
+	if(root == NULL) return 0;
+	if(!is_balanced) return 0;
+	
+	int ld = isBalancedHelper(root, is_balanced);
+	int rd = isBalancedHelper(root, is_balanced);
+	if(!is_balanced) return 0;
+	is_balanced = abs(lh - rh) <= 1;
+	return max(lh, rh) + 1;
+}
+
+bool isBalanced(BinTree *root){
+	bool is_balanced = true;
+	isBalancedHelper(root, is_balanced);
+	return is_balanced;
+}
+
 // Judge whether two trees have the same structure.
 bool Compare(BinTree *r, BinTree *t)
 {
