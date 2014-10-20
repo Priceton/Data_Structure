@@ -3,6 +3,8 @@
 //
 
 #include<iostream>
+#include<stack>
+#include<vector>
 #include<deque>
 using namespace std;
 
@@ -36,6 +38,24 @@ void PreOrder(BinTree *root)
 	PreOrder(root->left);
 	PreOrder(root->right);
 }
+
+vector<int> PreOrder(BinTree *root){
+	vector<int> result;
+	stack<BinTree *> stk;
+	BinTree *p = root;
+	if(p != NULL)
+		stk.push(p);
+	while(!stk.empty()){
+		p = stk.top();
+		result.push_back(p->val);
+		stk.pop();
+
+		if(p->right != NULL) stk.push(p->right);
+		if(p->left != NULL) stk.push(p->left);
+	}
+	return result;
+}
+
 void MidOrder(BinTree *root)
 {
 	if(root == NULL)
@@ -45,6 +65,26 @@ void MidOrder(BinTree *root)
 	MidOrder(root->right);
 }
 
+vector<int> InOrder(BinTree *root){
+	vector<int> result;
+	stack<BinTree *> stk;
+	BinTree *p = root;
+	while(p != NULL || !stk.empty()){
+		while(p != NULL){
+			stk.push(p);
+			p = p->left;
+		}
+		p = stk.top();
+		stk.pop();
+		result.push_back(p->val);
+		if(p->right != NULL){
+			p = p->right;
+		}
+	}
+	return result;
+}
+
+
 void PostOrder(BinTree *root)
 {
 	if(root == NULL)
@@ -52,6 +92,31 @@ void PostOrder(BinTree *root)
 	PostOrder(root->left);
 	PostOrder(root->right);
 	cout<<root->val<<" ";
+}
+
+vector<int> PostOrder(BinTree *root){
+	vector<int> result;
+	stack<BinTree *> stk;
+	BinTree *p = root;
+	BinTree *q = NULL;
+
+	while(p != NULL || !stk.empty()){
+		while(p != NULL){
+			stk.push(p);
+			p = p->left;
+		}
+		p = stk.top();
+		if(p->right == NULL || p->right == q){
+			stk.pop();
+			result.push_back(p->val);
+			q = p;
+			p = NULL;
+		}
+		else{
+			p = p->right;
+		}
+	}
+	return result;
 }
 
 void LevelOrder(BinTree *root)
